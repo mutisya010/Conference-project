@@ -37,6 +37,7 @@ document.querySelectorAll('.footer-contact p').forEach((item) => {
 
 const registrationModal = document.querySelector('#registration-modal');
 const registrationForm = document.querySelector('#registration-form');
+const registrationToast = document.querySelector('#registration-toast');
 
 if (registrationModal) {
   const openRegistration = () => {
@@ -88,7 +89,16 @@ if (registrationModal) {
         throw new Error(data.message || 'Unable to submit registration.');
       }
 
-      status.textContent = 'Thank you! Your registration has been received.';
+      status.textContent = '';
+      if (registrationToast) {
+        registrationToast.textContent = 'Thanks for submitting!';
+        registrationToast.classList.add('is-visible');
+        registrationToast.setAttribute('aria-hidden', 'false');
+        window.setTimeout(() => {
+          registrationToast.classList.remove('is-visible');
+          registrationToast.setAttribute('aria-hidden', 'true');
+        }, 4000);
+      }
       registrationForm.reset();
     } catch (error) {
       status.textContent = error.message || 'Something went wrong. Please try again.';
